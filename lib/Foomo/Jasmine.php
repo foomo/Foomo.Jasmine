@@ -27,18 +27,22 @@ class Jasmine
 {
 	public static function addToDoc(HTMLDocument $doc = null)
 	{
+		static $docsIWasAddedTo = array();
 		if(is_null($doc)) {
 			$doc = HTMLDocument::getInstance();
 		}
-		$path = Jasmine\Module::getHtdocsPath('js/jasmine-1.3.1');
-		$doc
-			->addJavascripts(array(
-				$path . '/jasmine.js',
-				$path . '/jasmine-html.js'
-			))
-			->addStylesheets(array(
-				$path . '/jasmine.css'
-			))
-		;
+		if(!in_array($doc, $docsIWasAddedTo)) {
+			$docsIWasAddedTo[] = $doc;
+			$path = Jasmine\Module::getHtdocsPath('js/jasmine-1.3.1');
+			$doc
+				->addJavascripts(array(
+					$path . '/jasmine.js',
+					$path . '/jasmine-html.js'
+				))
+				->addStylesheets(array(
+					$path . '/jasmine.css'
+				))
+			;
+		}
 	}
 }
