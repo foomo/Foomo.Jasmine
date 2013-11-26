@@ -35,7 +35,7 @@ class Jasmine
 			$docsIWasAddedTo[] = $doc;
 			$path = Jasmine\Module::getHtdocsPath('js/jasmine-1.3.1');
 			$doc
-				->addJavascripts(array(
+				->addJavascriptsToBody(array(
 					$path . '/jasmine.js',
 					$path . '/jasmine-html.js'
 				))
