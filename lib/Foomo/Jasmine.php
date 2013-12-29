@@ -25,7 +25,9 @@ namespace Foomo;
  */
 class Jasmine
 {
-	public static function addToDoc(HTMLDocument $doc = null)
+	const VERSION_1_3_1 = '1.3.1';
+	const VERSION_2_0_0 = '2.0.0';
+	public static function addToDoc(HTMLDocument $doc = null, $version = self::VERSION_2_0_0)
 	{
 		static $docsIWasAddedTo = array();
 		if(is_null($doc)) {
@@ -33,12 +35,27 @@ class Jasmine
 		}
 		if(!in_array($doc, $docsIWasAddedTo)) {
 			$docsIWasAddedTo[] = $doc;
-			$path = Jasmine\Module::getHtdocsPath('js/jasmine-1.3.1');
+			$path = Jasmine\Module::getHtdocsPath('js/jasmine-' . $version);
+			switch($version) {
+				case self::VERSION_1_3_1:
+					$scripts = array(
+						$path . '/jasmine.js',
+						$path . '/jasmine-html.js'
+					);
+					break;
+				case self::VERSION_2_0_0:
+					$scripts = array(
+						$path . '/jasmine.js',
+						$path . '/jasmine-html.js',
+						$path . '/boot.js'
+					);
+					break;
+				default:
+					trigger_error('unknown jasmine version');
+
+			}
 			$doc
-				->addJavascriptsToBody(array(
-					$path . '/jasmine.js',
-					$path . '/jasmine-html.js'
-				))
+				->addJavascriptsToBody($scripts)
 				->addStylesheets(array(
 					$path . '/jasmine.css'
 				))
